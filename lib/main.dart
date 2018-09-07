@@ -160,14 +160,14 @@ class CameraState extends State<NewCheckScreen> {
         (bestandje == null
             ? new Text('Maak een foto =)')
             : new Container(
-                height: MediaQuery.of(context).size.height * 0.60,
+                height: MediaQuery.of(context).size.height * 0.30,
                 child: new Image.file(bestandje),
               )),
         (bestandje == null
             ? new Text('')
             : TextField(
-                controller: myController,
-                decoration: InputDecoration(hintText: 'Name of patient'),
+//                controller: myController,
+          decoration: InputDecoration(hintText: 'Name of patient'),
               )),
         (bestandje == null
             ? new Text('')
@@ -175,7 +175,7 @@ class CameraState extends State<NewCheckScreen> {
                 onPressed: () {
                   checks.add(new Check(myController.text, bestandje));
                   Navigator.pop(context);
-                  key.currentState.showSnackBar(new SnackBar(content: new Text('nieuwe check jonguh')));
+//                  key.currentState.showSnackBar(new SnackBar(content: new Text('nieuwe check jonguh')));
                 },
                 child: new Text('Verstuur')))
       ]),
