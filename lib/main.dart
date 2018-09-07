@@ -5,7 +5,8 @@ import 'dart:io';
 void main() => runApp(new MyApp());
 
 bool available = false;
-List<File> plaatjuhs = new List();
+List<Check> checks = new List();
+TextStyle buttonTextStyle = new TextStyle(color: Colors.white);
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -38,8 +39,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle buttonTextStyle = new TextStyle(color: Colors.white);
-
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(
@@ -102,7 +101,7 @@ class AvailabilityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Availability"),
+        title: Text("Availability", style: buttonTextStyle),
       ),
       body: Center(
         child: RaisedButton(
@@ -138,19 +137,45 @@ class CameraState extends State<NewCheckScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: new Scaffold(
-        appBar: AppBar(title: new Text('Nieuwe controle'), backgroundColor: Colors.orange,),
-        body: new Column(children: [
-
-        ]),
-        floatingActionButton: new FloatingActionButton(
-          onPressed: picker,
-          backgroundColor: Colors.deepOrangeAccent,
-          child: new Icon(Icons.camera_alt),
-        ),
+//    return new MaterialApp(
+    return Scaffold(
+      appBar: AppBar(
+        title: new Text('Nieuwe controle', style: buttonTextStyle),
+      ),
+      body: new Column(children: [
+        (bestandje == null
+            ? new Text('Maak een foto =)')
+            : new Image.file(bestandje)),
+        (bestandje == null
+            ? new Text('')
+            : TextField(
+                decoration: InputDecoration(hintText: 'Name of patient'),
+              )),
+        (bestandje == null
+            ? new Text('')
+            : RaisedButton(
+                onPressed: () {
+                  checks.add(new Check(null, bestandje));
+                  Navigator.pop(context);
+                },
+                child: new Text('Verstuur')))
+      ]),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: picker,
+        backgroundColor: Colors.deepOrangeAccent,
+        child: new Icon(Icons.camera_alt),
       ),
     );
+  }
+}
+
+class Check {
+  String patientName;
+  File photo;
+
+  Check(String name, File photo) {
+    this.patientName = name;
+    this.photo = photo;
   }
 }
 
