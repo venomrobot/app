@@ -116,3 +116,25 @@ class AvailabilityScreen extends StatelessWidget {
     );
   }
 }
+
+class NewCheckScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Availability"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+            _HomePageState()._changeAvailable();
+            Navigator.pop(context);
+          },
+          child: available
+              ? Text('I am available!')
+              : Text('I am no longer available'),
+        ),
+      ),
+    );
+  }
+}
