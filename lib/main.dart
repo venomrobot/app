@@ -127,6 +127,7 @@ class NewCheckScreen extends StatefulWidget {
 
 class CameraState extends State<NewCheckScreen> {
   File bestandje;
+  final myController = TextEditingController();
 
   picker() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -136,27 +137,45 @@ class CameraState extends State<NewCheckScreen> {
   }
 
   @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    myController.dispose();
+    super.dispose();
+  }
+
+  /*
+   new Image.file(bestandje)
+   minWidth: MediaQuery.of(context).size.width * 0.90,
+   */
+  @override
   Widget build(BuildContext context) {
 //    return new MaterialApp(
+    final key = new GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: key,
       appBar: AppBar(
         title: new Text('Nieuwe controle', style: buttonTextStyle),
       ),
       body: new Column(children: [
         (bestandje == null
             ? new Text('Maak een foto =)')
-            : new Image.file(bestandje)),
+            : new Container(
+                height: MediaQuery.of(context).size.height * 0.60,
+                child: new Image.file(bestandje),
+              )),
         (bestandje == null
             ? new Text('')
             : TextField(
+                controller: myController,
                 decoration: InputDecoration(hintText: 'Name of patient'),
               )),
         (bestandje == null
             ? new Text('')
             : RaisedButton(
                 onPressed: () {
-                  checks.add(new Check(null, bestandje));
+                  checks.add(new Check(myController.text, bestandje));
                   Navigator.pop(context);
+                  key.currentState.showSnackBar(new SnackBar(content: new Text('nieuwe check jonguh')));
                 },
                 child: new Text('Verstuur')))
       ]),
